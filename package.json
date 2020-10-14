@@ -1,11 +1,15 @@
 {
   "name": "ups-cli",
-  "version": "0.1.0",
-  "description": "Track your package through terminal.",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "1.0.0",
+  "description": "Track UPS package through terminal.",
+  "bin": "bin/ups-cli",
+  "main": "src/cli.js",
   "author": "Jhonny Moreira <jhonnymoreira@protonmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "meow": "^7.1.1",
+    "puppeteer": "^5.3.1",
+    "table": "^6.0.3"
+  }
 }
