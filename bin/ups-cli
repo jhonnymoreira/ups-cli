@@ -1,1 +1,49 @@
 #!/usr/bin/env node
+const meow = require('meow');
+const { upsCLI } = require('../src/cli');
+
+const cli = meow(
+  `
+Usage
+  $ ups-cli <package-code>
+
+Options
+  --locale, -l  Set the locale to use. (Default: "pt_BR")
+
+Examples
+  $ ups-cli 1ZA8075T1234567890
+  ╔═════════════════╤═════════════════╤══════════════════════╤════════════════════════════════╗
+  ║ Status          │ Localização     │ Data e Horário       │ Descrição                      ║
+  ╟─────────────────┼─────────────────┼──────────────────────┼────────────────────────────────╢
+  ║ Em Trânsito     │ Sao Paulo,      │ 13/10/2020 20:05     │ Seu pacote está em trânsito.   ║
+  ║                 │ Brazil          │                      │ Estamos atualizando planos     ║
+  ║                 │                 │                      │ para programar sua entrega.    ║
+  ╟─────────────────┼─────────────────┼──────────────────────┼────────────────────────────────╢
+  ║                 │ Vitoria, Brazil │ 13/10/2020 18:19     │ Saiu da unidade                ║
+  ╟─────────────────┼─────────────────┼──────────────────────┼────────────────────────────────╢
+  ║ Enviado         │ Vitoria, Brazil │ 13/10/2020 13:15     │ Scan de Origem                 ║
+  ╟─────────────────┼─────────────────┼──────────────────────┼────────────────────────────────╢
+  ║ Etiqueta Criada │ Brazil          │ 13/10/2020 7:07      │ Pedido Processado: Pronto para ║
+  ║                 │                 │                      │ a UPS                          ║
+  ╚═════════════════╧═════════════════╧══════════════════════╧════════════════════════════════╝
+`,
+  {
+    flags: {
+      locale: {
+        type: 'string',
+        alias: 'l',
+        default: 'pt_BR',
+      },
+    },
+  }
+);
+
+if (cli.input.length === 0) {
+  cli.showHelp();
+} else {
+  upsCLI({ locale: 'pt_BR', packageCode: cli.input[0] }).catch(
+    ({ message }) => {
+      console.error({ message });
+    }
+  );
+}
